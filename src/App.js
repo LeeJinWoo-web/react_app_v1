@@ -21,13 +21,6 @@ class App extends Component {
     }
   }
 
-  _clcikEvent = () =>{
-    console.log(1)
-    this.setState({
-      mode: "welcome"
-    })
-  }
-
   render(){
     let _title, _desc = null;
     if(this.state.mode === "welcome"){
@@ -39,25 +32,15 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <header>
-          <h1>
-            <a 
-              href="" 
-              onClick={ e => {
-                  e.preventDefault();
-                  this._clcikEvent()
-              }}>
-              {this.state.subject.title}
-             </a>
-          </h1>
-          {this.state.subject.sub}
-        </header>
+        <Subject
+          title={this.state.subject.title}
+          sub={this.state.subject.sub}
+          onChangePage = { () => this.setState({mode:"welcome"}) }
+        />
         <TOC data={this.state.contents}/>
         <Content title={_title} desc={_desc}/>
       </div>
     );
   }
-
 }
-
 export default App;
