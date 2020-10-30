@@ -5,7 +5,19 @@ class TOC extends Component{
         const lists = [];
         const data = this.props.data;
         for(let i=0; i<data.length; i++){
-            lists.push(<li key={data[i].id}><a href={"/content/"+data[i].id}>{data[i].title}</a></li>)
+            lists.push(
+                <li key={data[i].id}>
+                    <a 
+                        onClick={ (e) => {
+                            e.preventDefault();
+                            this.props.onChangePage(data[i].id);//App.js의 TOC를 실행        
+                        }}
+                        href={"/content/"+data[i].id}
+                    >
+                        {data[i].title}
+                    </a>
+                </li>
+              )
         }
       return(
         <nav>
