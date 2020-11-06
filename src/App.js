@@ -3,6 +3,7 @@ import TOC from './components/TOC';
 import ReadContent from './components/ReadContent';
 import Subject from './components/Subject';
 import CreateContent from './components/CreateContent';
+import Control from './components/Control';
 import './App.css';
 
 class App extends Component {
@@ -10,10 +11,11 @@ class App extends Component {
   //컴포넌트가 실행될때 constructor 제일먼저 실행된다
   constructor(props){
     super(props);
+    this.max_content_id = 3;
     this.state = {
-      mode: "read",
-      subject:{title:"WEB", sub:"world wide web!!"},
+      mode: "create",
       selected_content_id:2,
+      subject:{title:"WEB", sub:"world wide web!!"},
       welcome:{title:"Welcome", desc:"Hello,React!!"},
       contents:[
         {id: 1, title: "HTML", desc: "HTML is Imformation"},
@@ -24,10 +26,11 @@ class App extends Component {
   }
 
   render(){
-    let _title, _desc = null;
+    let _title, _desc, _article = null;
     if(this.state.mode === "welcome"){
       _title = this.state.welcome.title;
       _desc = this.state.welcome.desc;    
+      _article = <ReadContent title={_title} desc={_desc} />
     } else if(this.state.mode === "read"){
       for(let i=0; i<this.state.contents.length; i++){
         let data = this.state.contents[i]
@@ -37,6 +40,17 @@ class App extends Component {
           break;
         }
       }
+      _article = <ReadContent title={_title} desc={_desc} />
+    }else if(this.state.mode === 'create'){
+      _article =  <CreateContent onSubmit={ (_title, _desc) => {
+        this.max_content_id = this.max_content_id + 1;
+        let _contents = this.state.contents.concat(
+          {id: this.max_content_id, title:_title, desc: _desc}    
+        );
+        this.setState({
+          contents: _contents
+        })
+      }}/>
     }
     return (
       <div className="App">
@@ -54,7 +68,13 @@ class App extends Component {
           }}
           data={this.state.contents}
         />
-        <ReadContent title={_title} desc={_desc}/>
+        <Control onChangeMode={(_mode) => {
+            console.log(_mode)
+            this.setState({
+              mode: _mode
+            })
+        }}/>
+        {_article}
       </div>
     );
   }
