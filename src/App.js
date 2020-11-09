@@ -15,7 +15,7 @@ class App extends Component {
     this.max_content_id = 3;
     this.state = {
       mode: "welcome",
-      selected_content_id:2,
+      selected_content_id:0,
       subject:{title:"WEB", sub:"world wide web!!"},
       welcome:{title:"Welcome", desc:"Hello,React!!"},
       contents:[
@@ -92,12 +92,23 @@ class App extends Component {
         <Control onChangeMode={(_mode) => {
           if(_mode === "delete"){
             if(window.confirm){
-              
+              let _contents = Array.from(this.state.contents);
+              _contents.forEach((v,i) => {
+                if(_contents[i].id === this.state.selected_content_id){
+                  _contents.splice(i,1)
+                }
+              })
+              this.setState({
+                mode: 'welcome',
+                selected_content_id : 0,
+                contents: _contents
+              })
             }
-          }
+          }else{
             this.setState({
               mode: _mode
             })
+          }
         }}/>
         {this.getContent()}
       </div>
