@@ -49,7 +49,9 @@ class App extends Component {
         let _contents = Array.from(this.state.contents)
         _contents.push({id: this.max_content_id, title:_title, desc: _desc});
         this.setState({
-          contents: _contents
+          contents: _contents,
+          mode: 'read',
+          selected_content_id : this.max_content_id  
         })
       }}/>
     }
@@ -63,7 +65,8 @@ class App extends Component {
           }
         })
         this.setState({
-          contents : _contents
+          contents : _contents,
+          mode: 'read'
         })
       }}/>
     }
@@ -87,6 +90,11 @@ class App extends Component {
           data={this.state.contents}
         />
         <Control onChangeMode={(_mode) => {
+          if(_mode === "delete"){
+            if(window.confirm){
+              
+            }
+          }
             this.setState({
               mode: _mode
             })
