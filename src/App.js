@@ -46,9 +46,8 @@ class App extends Component {
     }else if(this.state.mode === 'create'){
       _article =  <CreateContent onSubmit={ (_title, _desc) => {
         this.max_content_id = this.max_content_id + 1;
-        let _contents = this.state.contents.concat(
-          {id: this.max_content_id, title:_title, desc: _desc}    
-        );
+        let _contents = Array.from(this.state.contents)
+        _contents.push({id: this.max_content_id, title:_title, desc: _desc});
         this.setState({
           contents: _contents
         })
@@ -56,13 +55,15 @@ class App extends Component {
     }
     else if(this.state.mode === 'update'){
       let _content = this.getReadContent();
-      _article =  <UpdateContent data={_content} onSubmit={ (_title, _desc) => {
-        this.max_content_id = this.max_content_id + 1;
-        let _contents = this.state.contents.concat(
-          {id: this.max_content_id, title:_title, desc: _desc}    
-        );
+      _article =  <UpdateContent data={_content} onSubmit={ (_id, _title, _desc) => {
+        let _contents = Array.from(this.state.contents)
+        _contents.forEach((v,i) => {
+          if(_contents[i].id === _id){
+            _contents[i] = {id: _id, title: _title, desc: _desc}
+          }
+        })
         this.setState({
-          contents: _contents
+          contents : _contents
         })
       }}/>
     }
@@ -86,7 +87,6 @@ class App extends Component {
           data={this.state.contents}
         />
         <Control onChangeMode={(_mode) => {
-            console.log(_mode)
             this.setState({
               mode: _mode
             })

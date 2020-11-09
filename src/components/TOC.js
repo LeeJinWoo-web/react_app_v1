@@ -8,7 +8,6 @@ class TOC extends Component{
     return true;
   }
     render(){
-      console.log("========>TOC")
         const lists = [];
         const data = this.props.data;
         for(let i=0; i<data.length; i++){
