@@ -7,6 +7,9 @@ class CreateContent extends Component{
           <h2>Create</h2>
           <form action="/create_process" method="post" onSubmit={ (e) => {
               e.preventDefault();
+              if(e.target.title.value === "" || e.target.desc.value === ""){
+                return false;
+              }
               this.props.onSubmit(e.target.title.value, e.target.desc.value)
           }}>
               <p>
